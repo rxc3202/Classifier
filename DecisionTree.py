@@ -88,6 +88,13 @@ class DecisionTree:
         self.examples = []
         self.classes = [] 
         self.attrs = []
+        self._attr_spec = {}
+
+    def define_attributes(self, *specs):
+        attr_specifications = {}
+        for spec in specs:
+            attr_specifications[spec[0]] = spec[1:]
+        self._attr_spec = attr_specifications
 
     def load_examples(self, attrs, tuples):
         """
@@ -99,46 +106,52 @@ class DecisionTree:
         self.attrs.extend(attrs)
         self._used = set()
 
-    def _generate_tree(self, depth, examples, parent_examples=[], used_attrs=[]):
-        DT = DecisionTree
-        used_attrs = list(used_attrs) # pass by value not by refenece
-        if not examples:
-            return DT.plurality(parent_examples, self.classes)
-        elif DT.fully_classified(examples, self.classes):
-            return examples[0].classification
-        elif not set(self.attrs) - set(used_attrs):
-            return DT.plurality(examples, self.classes)
-        else:
-            choices = []
-            for i in range(0, len(self.attrs)):
-                if not self.attrs[i] in used_attrs:
-                    choices.append(DT.Gain(examples, i, ('True', 'False')))
-                else:
-                    choices.append(-1)
-            A = choices.index(max(choices))
-
-            sub = []
-            for vk in ('True', 'False'): # vk in A
-                branch = list(filter(lambda dp: dp[A] == vk, examples))
-                if depth == 0:
-                    sub.append(DT.plurality(examples, self.classes))
-                else:
-                    used_attrs.append(self.attrs[A])
-                    sub.append(self._generate_tree(depth - 1, branch, examples, used_attrs))
-            return (A, sub[0], sub[1])
-
     def generate_tree(self, depth, examples, parent_examples=[], used_attrs=[]):
-        self.tree = self._generate_tree(depth, examples, parent_examples, used_attrs)
+        def _generate(depth, examples, parent_examples, used_attrs):
+            DT = DecisionTree
+            used= list(used_attrs)
+            # if examples is empty then return the majority of the parent
+            if not examples:
+                return DT.plurality(parent_examples, self.classes)
+            # if they're all the same class return that class
+            elif DT.fully_classified(examples, self.classes):
+                return examples[0].classification
+            # if there are no attributes left return majority of everyone
+            elif not set(self.attrs) - set(used):
+                return DT.plurality(examples, self.classes)
+            # We can still generate the Tree
+            else:
+                # A <- argmax-a E attributes( IMPORTANCE(a, examples) )
+                gain = []
+                for i in range(0, len(self.attrs)):
+                    if self.attrs[i] in used:
+                        gain.append(-1)
+                    else:
+                        gain.append(DT.Gain(examples, i, ('True', 'False')))
+                A = gain.index(max(gain))
+
+                sub = []
+                for vk in ('True', 'False'): 
+                    # exs <- {e : e E examples and e.A = vk}
+                    branch = list(filter(lambda dp: dp[A] == vk, examples))
+                    # subtree <- DECISION-TREE-LEARNING(exs, attributes - A, examples)
+                    if depth == 0:
+                        sub.append(DT.plurality(examples, self.classes))
+                    else:
+                        used.append(self.attrs[A])
+                        sub.append(_generate(depth-1, branch, examples, used))
+                return (A, sub[0], sub[1])
+        self.tree = _generate(depth, examples, parent_examples, used_attrs)
+
 
     def print_tree(self):
         def traverse(node, lvl=0):
-            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0]))
+            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0]+1))
             for child in node[1:]:
                 if child in self.classes:
-                    print('    ' * lvl, "|---" + str(child))
+                    print('    ' * lvl, "|---" + child)
                 else:
                     traverse(child, lvl+1)
-
         traverse(self.tree)
 
             
@@ -151,6 +164,16 @@ if __name__ == '__main__':
 
     Tree = DecisionTree()
     Tree.load_examples(['attr1', 'attr2', 'attr3', 'attr4', 'attr5', 'attr6', 'attr7', 'attr8'], training_set)
+    Tree.define_attributes(
+            ('attr1', 'True', 'False'),
+            ('attr2', 'True', 'False'),
+            ('attr3', 'True', 'False'),
+            ('attr4', 'True', 'False'),
+            ('attr5', 'True', 'False'),
+            ('attr6', 'True', 'False'),
+            ('attr7', 'True', 'False'),
+            ('attr8', 'True', 'False')
+            )
     Tree.generate_tree(3, Tree.examples)
-    print(Tree.tree)
+    print(Tree._attr_spec)
     Tree.print_tree()
