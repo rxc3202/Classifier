@@ -52,7 +52,7 @@ class DecisionTree:
 
 
     @classmethod
-    def Remainder(cls, examples, A, V, p, n):
+    def Remainder(cls, examples, A, V, p, n, pos_class_func):
         """
         Will calculate the total entropy remaining for a given set
         given an attribute A and V
@@ -60,7 +60,7 @@ class DecisionTree:
         remainder = 0
         for d in V: # over all distinct values of A
             Ek = list(filter(lambda dp: dp[A] == d, examples))
-            pk, nk = cls.pos_neg(Ek, lambda dp: dp.classification in cls.POS_CLASS)
+            pk, nk = cls.pos_neg(Ek, pos_class_func)
             partial = 0
             try:
                 partial = (pk + nk)/(p + n) * cls.B(pk/(pk + nk))
@@ -71,12 +71,12 @@ class DecisionTree:
 
 
     @classmethod
-    def Gain(cls, examples, A, V, p, n):
+    def Gain(cls, examples, A, V, p, n, pos_class_func):
         """
         Calculates the information gain of the given attribute A
         that has V distinct values.
         """
-        return cls.B(p/(p+n)) - cls.Remainder(examples, A, V, p, n)
+        return cls.B(p/(p+n)) - cls.Remainder(examples, A, V, p, n, pos_class_func)
     
     @classmethod
     def pos_neg(cls, examples, classifier):
@@ -88,17 +88,21 @@ class DecisionTree:
     ###              ###
     
     def __init__(self):
+        self.p = 0
+        self.n = 0
         self.examples = []
         self.classes = [] 
         self.attrs = []
         self._attr_values= {}
-        self._positive_class_classifier = None
+        self.classifier = None
 
     def domain(self, idx):
         return self._attr_values[self.attrs[idx]]
     
-    def define_positive_class(func):
-        self._positive_class_classifier = func
+
+    def define_positive_class(self, func):
+        self.classifier = func
+
 
     def define_attributes(self, *specs):
         attr_specifications = {}
@@ -106,18 +110,18 @@ class DecisionTree:
             attr_specifications[spec[0]] = spec[1:]
         self._attr_values = attr_specifications
 
+
     def load_examples(self, attrs, tuples):
-        """
-        """
         Example = namedtuple('Example', attrs + ['classification'])
         self.examples.extend(list(map(Example._make, tuples)))
         self.classes.extend(set(map(lambda x: x[-1], tuples)))
         self.tree = None
         self.attrs.extend(attrs)
         self._used = set()
+        self.p, self.n = DecisionTree.pos_neg(self.examples, self.classifier)
 
-    def generate_tree(self, depth, examples, parent_examples=[], used_attrs=[]):
-        p, n = DecisionTree.pos_neg(examples, lambda x: x.classification in DecisionTree.POS_CLASS)
+
+    def generate_tree(self, examples, depth=-1, parent_examples=[], used_attrs=[]):
         def _generate(depth, examples, parent_examples, used_attrs):
             DT = DecisionTree
             used= list(used_attrs)
@@ -139,7 +143,8 @@ class DecisionTree:
                         gain.append(-1)
                     else:
                         gain.append(
-                            DT.Gain(examples, a, self.domain(a), p, n)
+                            DT.Gain(examples, a, self.domain(a),
+                                self.p, self.n, self.classifier)
                         )
                 A = gain.index(max(gain))
 
@@ -154,13 +159,12 @@ class DecisionTree:
                         used.append(self.attrs[A])
                         sub.append(_generate(depth-1, exs, examples, used))
                 return (A, sub[0], sub[1])
-
         self.tree = _generate(depth, examples, parent_examples, used_attrs)
 
 
     def print_tree(self):
         def traverse(node, lvl=0):
-            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0]+1))
+            print('    ' * (lvl - 1), "|----" * (lvl > 0) + str(node[0]+1))
             for child in node[1:]:
                 if child in self.classes:
                     print('    ' * lvl, "|---" + child)
@@ -176,6 +180,7 @@ if __name__ == '__main__':
         training_set = [tuple(dp.strip(" \n").split(" ")) for dp in [l for l in data]]
 
     Tree = DecisionTree()
+    Tree.define_positive_class(lambda dp: dp.classification in ('A'))
     Tree.load_examples(['attr1', 'attr2', 'attr3', 'attr4', 'attr5', 'attr6', 'attr7', 'attr8'], training_set)
     Tree.define_attributes(
             ('attr1', 'True', 'False'),
@@ -186,5 +191,5 @@ if __name__ == '__main__':
             ('attr6', 'True', 'False'),
             ('attr7', 'True', 'False'),
             ('attr8', 'True', 'False'))
-    Tree.generate_tree(3, Tree.examples)
+    Tree.generate_tree(Tree.examples, depth=2)
     Tree.print_tree()
