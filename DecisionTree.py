@@ -9,27 +9,37 @@ from collections import namedtuple
 
 class DecisionTree:
 
-    POS_CLASS = ('A')
-
     ###           ###
     # CLASS METHODS #
     ###           ###
 
     @classmethod
     def fully_classified(cls, examples, classes):
-        val = cls.plurality_value(examples, classes)
-        return val == 1 or val == 0
+        """
+        return true if the current examples are of only one classification
+        """
+        for c in classes:
+            v = cls.plurality_value(examples, c)
+            if v == 1:
+                return True
+        return False
 
     @classmethod
-    def plurality_value(cls, examples, classes):
-        # TODO: make this more extensible by not having to use indices for classes
-        classifier = lambda x: x.classification == classes[0]
+    def plurality_value(cls, examples, classs):
+        """
+        produce a plurality value for a give classification
+        """
+        classifier = lambda x: x.classification == classs
         total = sum(map(lambda x: 1 if classifier(x) else 0, examples))
         return total/len(examples)
 
+
     @classmethod
     def plurality(cls, examples, classes):
-        return classes[0] if cls.plurality_value(examples, classes) > .5 else classes[1]
+        p_values = [
+            (c, cls.plurality_value(examples, c)) for c in classes
+        ]
+        return max(p_values, key=lambda x: x[1])[0]
         
     
     @classmethod
@@ -147,7 +157,6 @@ class DecisionTree:
                                 self.p, self.n, self.classifier)
                         )
                 A = gain.index(max(gain))
-
                 sub = []
                 for vk in self.domain(A):
                     # exs <- {e : e E examples and e.A = vk}
@@ -164,12 +173,12 @@ class DecisionTree:
 
     def print_tree(self):
         def traverse(node, lvl=0):
-            print('    ' * (lvl - 1), "|----" * (lvl > 0) + str(node[0]+1))
+            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0]+1))
             for child in node[1:]:
                 if child in self.classes:
                     print('    ' * lvl, "|---" + child)
                 else:
-                    traverse(child, lvl+1)
+                    traverse(child, lvl + 1)
         traverse(self.tree)
             
 
@@ -191,5 +200,5 @@ if __name__ == '__main__':
             ('attr6', 'True', 'False'),
             ('attr7', 'True', 'False'),
             ('attr8', 'True', 'False'))
-    Tree.generate_tree(Tree.examples, depth=2)
+    Tree.generate_tree(Tree.examples)
     Tree.print_tree()
