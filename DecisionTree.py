@@ -105,9 +105,6 @@ class DecisionTree:
         self.attrs = []
         self._attr_values= {}
         self.classifier = None
-
-    def domain(self, idx):
-        return self._attr_values[self.attrs[idx]]
     
 
     def define_positive_class(self, func):
@@ -132,6 +129,9 @@ class DecisionTree:
 
 
     def generate_tree(self, examples, depth=-1, parent_examples=[], used_attrs=[]):
+        def domain(idx):
+            return self._attr_values[self.attrs[idx]]
+
         def _generate(depth, examples, parent_examples, used_attrs):
             DT = DecisionTree
             used= list(used_attrs)
@@ -153,12 +153,12 @@ class DecisionTree:
                         gain.append(-1)
                     else:
                         gain.append(
-                            DT.Gain(examples, a, self.domain(a),
+                            DT.Gain(examples, a, domain(a),
                                 self.p, self.n, self.classifier)
                         )
                 A = gain.index(max(gain))
                 sub = []
-                for vk in self.domain(A):
+                for vk in domain(A):
                     # exs <- {e : e E examples and e.A = vk}
                     exs = list(filter(lambda dp: dp[A] == vk, examples))
                     # subtree <- DECISION-TREE-LEARNING(exs, attributes - A, examples)
@@ -173,7 +173,7 @@ class DecisionTree:
 
     def print_tree(self):
         def traverse(node, lvl=0):
-            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0]+1))
+            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(self.attrs[node[0]]))
             for child in node[1:]:
                 if child in self.classes:
                     print('    ' * lvl, "|---" + child)
