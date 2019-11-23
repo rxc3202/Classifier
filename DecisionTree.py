@@ -61,18 +61,21 @@ class DecisionTree:
         for d in V: # over all distinct values of A
             Ek = list(filter(lambda dp: dp[A] == d, examples))
             pk, nk = cls.pos_neg(Ek, lambda dp: dp.classification in cls.POS_CLASS)
-            partial = (pk + nk)/(p + n) * cls.B(pk/(pk + nk))
+            partial = 0
+            try:
+                partial = (pk + nk)/(p + n) * cls.B(pk/(pk + nk))
+            except ZeroDivisionError:
+                pass
             remainder += partial
         return remainder
 
 
     @classmethod
-    def Gain(cls, examples, A, V):
+    def Gain(cls, examples, A, V, p, n):
         """
         Calculates the information gain of the given attribute A
         that has V distinct values.
         """
-        p, n = cls.pos_neg(examples, lambda x: x.classification in cls.POS_CLASS)
         return cls.B(p/(p+n)) - cls.Remainder(examples, A, V, p, n)
     
     @classmethod
@@ -88,13 +91,20 @@ class DecisionTree:
         self.examples = []
         self.classes = [] 
         self.attrs = []
-        self._attr_spec = {}
+        self._attr_values= {}
+        self._positive_class_classifier = None
+
+    def domain(self, idx):
+        return self._attr_values[self.attrs[idx]]
+    
+    def define_positive_class(func):
+        self._positive_class_classifier = func
 
     def define_attributes(self, *specs):
         attr_specifications = {}
         for spec in specs:
             attr_specifications[spec[0]] = spec[1:]
-        self._attr_spec = attr_specifications
+        self._attr_values = attr_specifications
 
     def load_examples(self, attrs, tuples):
         """
@@ -107,6 +117,7 @@ class DecisionTree:
         self._used = set()
 
     def generate_tree(self, depth, examples, parent_examples=[], used_attrs=[]):
+        p, n = DecisionTree.pos_neg(examples, lambda x: x.classification in DecisionTree.POS_CLASS)
         def _generate(depth, examples, parent_examples, used_attrs):
             DT = DecisionTree
             used= list(used_attrs)
@@ -123,24 +134,27 @@ class DecisionTree:
             else:
                 # A <- argmax-a E attributes( IMPORTANCE(a, examples) )
                 gain = []
-                for i in range(0, len(self.attrs)):
-                    if self.attrs[i] in used:
+                for a in range(0, len(self.attrs)):
+                    if self.attrs[a] in used:
                         gain.append(-1)
                     else:
-                        gain.append(DT.Gain(examples, i, ('True', 'False')))
+                        gain.append(
+                            DT.Gain(examples, a, self.domain(a), p, n)
+                        )
                 A = gain.index(max(gain))
 
                 sub = []
-                for vk in ('True', 'False'): 
+                for vk in self.domain(A):
                     # exs <- {e : e E examples and e.A = vk}
-                    branch = list(filter(lambda dp: dp[A] == vk, examples))
+                    exs = list(filter(lambda dp: dp[A] == vk, examples))
                     # subtree <- DECISION-TREE-LEARNING(exs, attributes - A, examples)
                     if depth == 0:
                         sub.append(DT.plurality(examples, self.classes))
                     else:
                         used.append(self.attrs[A])
-                        sub.append(_generate(depth-1, branch, examples, used))
+                        sub.append(_generate(depth-1, exs, examples, used))
                 return (A, sub[0], sub[1])
+
         self.tree = _generate(depth, examples, parent_examples, used_attrs)
 
 
@@ -153,7 +167,6 @@ class DecisionTree:
                 else:
                     traverse(child, lvl+1)
         traverse(self.tree)
-
             
 
 if __name__ == '__main__':
@@ -172,8 +185,6 @@ if __name__ == '__main__':
             ('attr5', 'True', 'False'),
             ('attr6', 'True', 'False'),
             ('attr7', 'True', 'False'),
-            ('attr8', 'True', 'False')
-            )
+            ('attr8', 'True', 'False'))
     Tree.generate_tree(3, Tree.examples)
-    print(Tree._attr_spec)
     Tree.print_tree()
