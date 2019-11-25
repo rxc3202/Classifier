@@ -124,17 +124,16 @@ class DecisionTree:
         self.classes.extend(set(map(lambda x: x[-1], tuples)))
         self.tree = None
         self.attrs.extend(attrs)
-        self._used = set()
         self.p, self.n = DecisionTree.pos_neg(self.examples, self.classifier)
 
 
-    def generate_tree(self, examples, depth=-1, parent_examples=[], used_attrs=[]):
+    def generate_tree(self, examples, depth=-1):
         def domain(idx):
             return self._attr_values[self.attrs[idx]]
 
         def _generate(depth, examples, parent_examples, used_attrs):
             DT = DecisionTree
-            used= list(used_attrs)
+            used = list(used_attrs)
             # if examples is empty then return the majority of the parent
             if not examples:
                 return DT.plurality(parent_examples, self.classes)
@@ -148,14 +147,14 @@ class DecisionTree:
             else:
                 # A <- argmax-a E attributes( IMPORTANCE(a, examples) )
                 gain = []
+                p, n = DT.pos_neg(parent_examples, self.classifier)
                 for a in range(0, len(self.attrs)):
                     if self.attrs[a] in used:
                         gain.append(-1)
                     else:
                         gain.append(
                             DT.Gain(examples, a, domain(a),
-                                self.p, self.n, self.classifier)
-                        )
+                                p, n, self.classifier))
                 A = gain.index(max(gain))
                 sub = []
                 for vk in domain(A):
@@ -168,7 +167,7 @@ class DecisionTree:
                         used.append(self.attrs[A])
                         sub.append(_generate(depth-1, exs, examples, used))
                 return (A, sub[0], sub[1])
-        self.tree = _generate(depth, examples, parent_examples, used_attrs)
+        self.tree = _generate(depth, examples, examples, [])
 
 
     def classify(self, examples):
@@ -196,8 +195,7 @@ class DecisionTree:
             else:
                 return use_classifier(
                         subtree[vk],
-                        example
-                        )
+                        example)
 
         classifier = traversify(self.tree)
         return [use_classifier(classifier, example)
