@@ -171,7 +171,7 @@ class DecisionTree:
         self.tree = _generate(depth, examples, parent_examples, used_attrs)
 
 
-    def classify(self, example):
+    def classify(self, examples):
         def traversify(node):
             attr = self.attrs[node[0]]
             n = {"attr": attr}
@@ -179,13 +179,29 @@ class DecisionTree:
             for i in range(len(self._attr_values[attr])):
                 # if that branch is taken, go to value it points to
                 key = self._attr_values[attr][i]
-                # keys are zero indexed but nodes are 1 indexed bc node[0] == attr
+                # keys zero indexed but nodes are 1 indexed bc node[0] == attr
                 if isinstance(node[i+1], tuple):
                     n[key] = traversify(node[i+1])
                 else:
-                    n[key] = node[i]
+                    n[key] = node[i+1]
             return n
-        return traversify(self.tree)
+        
+        def use_classifier(subtree, example):
+            feature = subtree["attr"]
+            vk = getattr(example, feature)
+            # if it is classification return it
+            if subtree[vk] in self.classes:
+                return subtree[vk]
+            # else we recurse down the tree
+            else:
+                return use_classifier(
+                        subtree[vk],
+                        example
+                        )
+
+        classifier = traversify(self.tree)
+        return [use_classifier(classifier, example)
+                for example in examples]
 
 
     def print_tree(self):
