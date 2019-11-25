@@ -171,6 +171,23 @@ class DecisionTree:
         self.tree = _generate(depth, examples, parent_examples, used_attrs)
 
 
+    def classify(self, example):
+        def traversify(node):
+            attr = self.attrs[node[0]]
+            n = {"attr": attr}
+            # for each vk where vk in A
+            for i in range(len(self._attr_values[attr])):
+                # if that branch is taken, go to value it points to
+                key = self._attr_values[attr][i]
+                # keys are zero indexed but nodes are 1 indexed bc node[0] == attr
+                if isinstance(node[i+1], tuple):
+                    n[key] = traversify(node[i+1])
+                else:
+                    n[key] = node[i]
+            return n
+        return traversify(self.tree)
+
+
     def print_tree(self):
         def traverse(node, lvl=0):
             print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(self.attrs[node[0]]))
