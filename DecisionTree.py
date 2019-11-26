@@ -166,7 +166,8 @@ class DecisionTree:
                     else:
                         used.append(self.attrs[A])
                         sub.append(_generate(depth-1, exs, examples, used))
-                return (A, sub[0], sub[1])
+                branch = sub[0] if sub[0] == sub[1] else (A, sub[0], sub[1])
+                return branch
         self.tree = _generate(depth, examples, examples, [])
 
 
@@ -210,7 +211,10 @@ class DecisionTree:
                     print('    ' * lvl, "|---" + child)
                 else:
                     traverse(child, lvl + 1)
-        traverse(self.tree)
+        if isinstance(self.tree, tuple):
+            traverse(self.tree)
+        else:
+            print(self.tree)
             
 
 if __name__ == '__main__':
