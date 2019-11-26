@@ -156,17 +156,17 @@ class DecisionTree:
                             DT.Gain(examples, a, domain(a),
                                 p, n, self.classifier))
                 A = gain.index(max(gain))
-                sub = []
+                children = []
                 for vk in domain(A):
                     # exs <- {e : e E examples and e.A = vk}
                     exs = list(filter(lambda dp: dp[A] == vk, examples))
                     # subtree <- DECISION-TREE-LEARNING(exs, attributes - A, examples)
                     if depth == 0:
-                        sub.append(DT.plurality(examples, self.classes))
+                        children.append(DT.plurality(examples, self.classes))
                     else:
                         used.append(self.attrs[A])
-                        sub.append(_generate(depth-1, exs, examples, used))
-                branch = sub[0] if sub[0] == sub[1] else (A, sub[0], sub[1])
+                        children.append(_generate(depth-1, exs, examples, used))
+                branch = tuple([A] + [c for c in children])
                 return branch
         self.tree = _generate(depth, examples, examples, [])
 
@@ -205,7 +205,7 @@ class DecisionTree:
 
     def print_tree(self):
         def traverse(node, lvl=0):
-            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(self.attrs[node[0]]))
+            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0] + 1))
             for child in node[1:]:
                 if child in self.classes:
                     print('    ' * lvl, "|---" + child)
