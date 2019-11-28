@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 """
-Filename: main.py
+Filename: processing.py
 """
 
 
@@ -94,7 +94,8 @@ if __name__ == '__main__':
     examples = []
     examples.extend(process_file("etc/language-data.txt"))
     Tree = DecisionTree()
-    Tree.define_positive_class(lambda dp: dp.classification == 'ne')
+    Tree.define_positive_class(lambda dp: dp.classification == 'en')
+    Tree.define_classes(['en', 'nl'])
     Tree.load_examples(["oo", "aa","ee","uu"], examples)
     Tree.define_attributes(
         ("oo", True, False),
