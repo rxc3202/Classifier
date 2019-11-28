@@ -125,10 +125,12 @@ class DecisionTree:
     def define_classes(self, classes):
         self.classes = classes
 
+    def create_examples(self, tuples):
+        Example = namedtuple('Example', self.attrs + ['classification'])
+        return list(map(Example._make, tuples))
 
     def load_examples(self, tuples):
-        Example = namedtuple('Example', self.attrs + ['classification'])
-        self.examples.extend(list(map(Example._make, tuples)))
+        self.examples.extend(self.create_examples(tuples))
         self.p, self.n = DecisionTree.pos_neg(self.examples, self.classifier)
 
 
