@@ -112,22 +112,23 @@ class DecisionTree:
         self.classifier = func
 
 
-    def define_attributes(self, *specs):
+    def define_attributes(self, specs):
         attr_specifications = {}
+        attrs = []
         for spec in specs:
             attr_specifications[spec[0]] = spec[1:]
+            attrs.append(spec[0])
         self._attr_values = attr_specifications
+        self.attrs = attrs
 
     
     def define_classes(self, classes):
         self.classes = classes
 
 
-    def load_examples(self, attrs, tuples):
-        Example = namedtuple('Example', attrs + ['classification'])
+    def load_examples(self, tuples):
+        Example = namedtuple('Example', self.attrs + ['classification'])
         self.examples.extend(list(map(Example._make, tuples)))
-        self.tree = None
-        self.attrs.extend(attrs)
         self.p, self.n = DecisionTree.pos_neg(self.examples, self.classifier)
 
 
@@ -229,16 +230,17 @@ if __name__ == '__main__':
 
     Tree = DecisionTree()
     Tree.define_positive_class(lambda dp: dp.classification in ('A'))
-    Tree.define_classes(['A', 'B'])
-    Tree.load_examples(['attr1', 'attr2', 'attr3', 'attr4', 'attr5', 'attr6', 'attr7', 'attr8'], training_set)
+    # TODO for some reason this affects leaf nodes
+    Tree.define_classes(['B', 'A'])
     Tree.define_attributes(
-            ('attr1', 'True', 'False'),
+            [('attr1', 'True', 'False'),
             ('attr2', 'True', 'False'),
             ('attr3', 'True', 'False'),
             ('attr4', 'True', 'False'),
             ('attr5', 'True', 'False'),
             ('attr6', 'True', 'False'),
             ('attr7', 'True', 'False'),
-            ('attr8', 'True', 'False'))
+            ('attr8', 'True', 'False')])
+    Tree.load_examples(training_set)
     Tree.generate_tree(Tree.examples)
     Tree.print_tree()
