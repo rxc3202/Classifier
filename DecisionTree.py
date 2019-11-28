@@ -97,7 +97,7 @@ class DecisionTree:
     # INSTANCE METHODS #
     ###              ###
     
-    def __init__(self):
+    def __init__(self, tree=None):
         self.p = 0
         self.n = 0
         self.examples = []
@@ -105,6 +105,7 @@ class DecisionTree:
         self.attrs = []
         self._attr_values= {}
         self.classifier = None
+        self.tree = tree
     
 
     def define_positive_class(self, func):
@@ -117,11 +118,14 @@ class DecisionTree:
             attr_specifications[spec[0]] = spec[1:]
         self._attr_values = attr_specifications
 
+    
+    def define_classes(self, classes):
+        self.classes = classes
+
 
     def load_examples(self, attrs, tuples):
         Example = namedtuple('Example', attrs + ['classification'])
         self.examples.extend(list(map(Example._make, tuples)))
-        self.classes.extend(set(map(lambda x: x[-1], tuples)))
         self.tree = None
         self.attrs.extend(attrs)
         self.p, self.n = DecisionTree.pos_neg(self.examples, self.classifier)
@@ -154,8 +158,9 @@ class DecisionTree:
                     else:
                         gain.append(
                             DT.Gain(examples, a, domain(a),
-                                p, n, self.classifier))
+                                self.p, self.n, self.classifier))
                 A = gain.index(max(gain))
+                used.append(self.attrs[A])
                 children = []
                 for vk in domain(A):
                     # exs <- {e : e E examples and e.A = vk}
@@ -164,9 +169,8 @@ class DecisionTree:
                     if depth == 0:
                         children.append(DT.plurality(examples, self.classes))
                     else:
-                        used.append(self.attrs[A])
                         children.append(_generate(depth-1, exs, examples, used))
-                branch = tuple([A] + [c for c in children])
+                branch = tuple([A] + children)
                 return branch
         self.tree = _generate(depth, examples, examples, [])
 
@@ -225,6 +229,7 @@ if __name__ == '__main__':
 
     Tree = DecisionTree()
     Tree.define_positive_class(lambda dp: dp.classification in ('A'))
+    Tree.define_classes(['A', 'B'])
     Tree.load_examples(['attr1', 'attr2', 'attr3', 'attr4', 'attr5', 'attr6', 'attr7', 'attr8'], training_set)
     Tree.define_attributes(
             ('attr1', 'True', 'False'),
