@@ -6,36 +6,41 @@ Filename: classification.py
 """
 import sys
 import re
+import processing
 from ast import literal_eval
 from processing import *
-from processing import processing_funcs
 from DecisionTree import DecisionTree
 
 def usage():
     print("classify.py <train> <examples> <hypothesisOut> <learning-type>")
     print("classify.py <predict> <hypothesis> <file>")
 
-def process_file(filename):
-    examples = []
+def process_file(filename, training=True):
+    raw_text = []
     with open(filename, 'r') as f:
-        examples = [re.sub("[,.]",'', line).strip("\n ") for line in f]
-    return [tuple( [f(l.split("|")[1]) for f in processing_funcs] + [l.split("|")[0]]) for l in examples] 
+        raw_text = [re.sub("[,.]",'', line).strip("\n ") for line in f]
+    labeled_examples = []
+    for example in raw_text:
+        example = example.split("|")
+        if training:
+            labeled_examples.append(tuple([f(example[1]) for f in processing_funcs] + [example[0]]))
+        else:
+            labeled_examples.append(tuple([f(example[0]) for f in processing_funcs] + [None]))
+    return labeled_examples
 
 
 def handle_train(argv):
-    examples = process_file(argv[2])
+    examples = process_file(argv[2], training=True)
     tree = DecisionTree()
     tree.define_positive_class(lambda x: x.classification == 'en')
-    tree.load_examples(["oo", "aa", "ee", "uu"], examples)
-    tree.define_attributes(
-        ("oo", True, False),
-        ("aa", True, False),
-        ("ee", True, False),
-        ("uu", True, False))
+    tree.define_classes(processing.classes)
+    tree.define_attributes(processing.attr_definitions)
+    tree.load_examples(examples)
     tree.generate_tree(tree.examples)
     with open(argv[3], "w") as f:
         f.write(str(tree.tree))
     f.close()
+    tree.print_tree()
 
 
 def handle_predict(argv):
@@ -43,21 +48,16 @@ def handle_predict(argv):
     with open(argv[2], "r") as f:
         # DONT DO THIS ITS INSECURE. IM INSANE
         hypothesis = f.readline()
+    f.close()
     hypothesis = literal_eval(hypothesis)
     tree = DecisionTree(hypothesis)
-    tree.define_classes(['en', 'nl'])
     tree.define_positive_class(lambda x: x.classification == 'en')
-    tree.define_attributes(
-        ("oo", True, False),
-        ("aa", True, False),
-        ("ee", True, False),
-        ("uu", True, False))
-    from collections import namedtuple
-    test_example = namedtuple(
-            'Example', 
-            ["oo", "aa", "ee", "uu"]
-        )._make((False, False, True, False))
-    print(tree.classify([test_example]))
+    tree.define_classes(processing.classes)
+    tree.define_attributes(processing.attr_definitions)
+    examples = process_file(argv[3], training=False)
+    examples = tree.create_examples(examples)
+    for classification in tree.classify(examples):
+        print(classification)
 
 def main():
     if sys.argv[1] == "train":

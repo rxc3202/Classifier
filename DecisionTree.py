@@ -161,7 +161,7 @@ class DecisionTree:
                     else:
                         gain.append(
                             DT.Gain(examples, a, domain(a),
-                                self.p, self.n, self.classifier))
+                                p, n, self.classifier))
                 A = gain.index(max(gain))
                 used.append(self.attrs[A])
                 children = []
@@ -212,7 +212,7 @@ class DecisionTree:
 
     def print_tree(self):
         def traverse(node, lvl=0):
-            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(node[0] + 1))
+            print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(self.attrs[node[0]]))
             for child in node[1:]:
                 if child in self.classes:
                     print('    ' * lvl, "|---" + child)
