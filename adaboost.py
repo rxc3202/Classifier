@@ -7,9 +7,6 @@ class Adaboost(DecisionTree):
         super().__init__(tree)
 
     def generate(self, examples):
-        def weighted_majority(h, z):
-            return [(z[i],h[i]) for i in range(len(h))]
-
         def normalize(w):
             return [float(i)/sum(w) for i in w]
 
@@ -31,22 +28,45 @@ class Adaboost(DecisionTree):
                 xj = examples[j]
                 xj_class = examples[j].classification
                 # add up the total error for this stump
-                if self.classify(xj, h[k]) != xj_class:
+                if super().classify(xj, h[k]) != xj_class:
                     error += w[j]
 
                 # adjust sample weights
-                if self.classify(xj, h[k]) == xj_class:
+                if super().classify(xj, h[k]) == xj_class:
                     w[j] = w[j] * pow(e, z[k])
                 else:
                     w[j] = w[j] * pow(e, -z[k])
 
             w = normalize(w)
-            z[k] = log2(((1-error)/error) + .0001)
-        self.tree = weighted_majority(h, z)
+            z[k] = .5 * log2(((1-error)/error) + .0001)
+        self.tree = list(zip(z, h))
+        return self.tree
 
-    def classify(self, examples, ensemble):
-        pass
-    
+    def classify(self, examples, hypothesis=None):
+        def traverse(example):
+            totals = {key:0 for key in self.classes}
+            classified = []
+            for weight, h in hypothesis:
+                # run the example through all the hypothesis
+                classified.append((h[0], super(Adaboost, self).classify(example, h)))
 
+            # figure out which of the classes the majority of stumps said
+            for c in classified:
+                # for each hypothesis result, get that hypothesis weight
+                # and add it to the total
+                totals[c[1]] += hypothesis[c[0]][0]
+            return max(self.classes, key=lambda x: totals[x])
+
+        if not hypothesis:
+            hypothesis = self.tree
+
+        if isinstance(examples, list):
+            return [traverse(e) for e in examples]
+        else:
+            return traverse(examples)
+        
     def print(self):
-        print(self.tree)
+        for tree in self.tree:
+            print(f"attr={self.attrs[tree[1][0]]}:({tree[0]})")
+            for child in tree[1][1:]:
+                print(f"    |---{child}")
