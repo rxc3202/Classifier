@@ -9,7 +9,7 @@ import re
 import processing
 from ast import literal_eval
 from processing import *
-from DecisionTree import DecisionTree
+from decisiontree import DecisionTree
 from adaboost import Adaboost
 
 def usage():

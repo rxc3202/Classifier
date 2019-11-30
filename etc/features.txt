@@ -1,3 +1,0 @@
-j, z, w, v in word
-percentage of vowels
-average word length

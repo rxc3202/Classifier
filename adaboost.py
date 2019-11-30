@@ -1,4 +1,4 @@
-from DecisionTree import DecisionTree
+from decisiontree import DecisionTree
 from math import e, log2
 
 class Adaboost(DecisionTree):
