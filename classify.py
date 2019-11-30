@@ -19,7 +19,7 @@ def usage():
 def process_file(filename, training=True):
     raw_text = []
     with open(filename, 'r') as f:
-        raw_text = [re.sub("[,.]",'', line).strip("\n ") for line in f]
+        raw_text = [re.sub("[^(a-zA-Z\d\-\s\|)]",'', line).strip("\n ") for line in f]
     labeled_examples = []
     for example in raw_text:
         example = example.split("|")
