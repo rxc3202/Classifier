@@ -34,14 +34,6 @@ def has_de(text):
             return True
     return False
 
-def has_gt2z(text):
-    text = text.split(' ')
-    count = 0
-    for word in text:
-        if "z" in word:
-            count+= 1
-    return count > 2
-
 
 def has_van(text):
     text = text.split(' ')
@@ -50,12 +42,14 @@ def has_van(text):
             return True
     return False
 
+
 def has_a(text):
     text = text.split(' ')
     for word in text:
         if "a" == word:
             return True
     return False
+
 
 def has_jk(text):
     text = text.split(' ')
@@ -72,10 +66,27 @@ def ends_en(text):
             return True
     return False
 
+
 def has_uu(text):
     text = text.split(' ')
     for word in text:
         if "uu" in word:
+            return True
+    return False
+
+
+def has_oo(text):
+    text = text.split(' ')
+    for word in text:
+        if "oo" in word:
+            return True
+    return False
+
+
+def has_of(text):
+    text = text.split(' ')
+    for word in text:
+        if "of" == word:
             return True
     return False
 
@@ -87,22 +98,24 @@ processing_funcs = [
     has_the,
     has_jn,
     has_de,
-    has_gt2z,
     has_van,
     has_a,
-    ends_en
+    ends_en,
+    has_oo,
+    has_of
 ]
 
 classes = ['en', 'nl']
-attr_names = ["aa", "uu", "the", "jn", "de", "gt2z", "van", "a", "en_ending"]
+attr_names = ["aa", "uu", "the", "jn", "de", "van", "a", "en_ending", "oo", "of"]
 attr_definitions = [
         ("aa", True, False),
         ("uu", True, False),
         ("the", True, False),
         ("jn", True, False),
         ("de", True, False),
-        ("gt2z", True, False),
         ("van", True, False),
         ("a", True, False),
-        ("en_ending", True, False)
+        ("en_ending", True, False),
+        ("oo", True, False),
+        ("of", True, False)
 ]
