@@ -10,6 +10,7 @@ import processing
 from ast import literal_eval
 from processing import *
 from DecisionTree import DecisionTree
+from adaboost import Adaboost
 
 def usage():
     print("classify.py <train> <examples> <hypothesisOut> <learning-type>")
@@ -31,16 +32,21 @@ def process_file(filename, training=True):
 
 def handle_train(argv):
     examples = process_file(argv[2], training=True)
-    tree = DecisionTree()
+    tree = None
+    if argv[4] == "dt":
+        tree = DecisionTree()
+    else:
+        tree = Adaboost()
+    
     tree.define_positive_class(lambda x: x.classification == 'en')
     tree.define_classes(processing.classes)
     tree.define_attributes(processing.attr_definitions)
     tree.load_examples(examples)
-    tree.generate_tree(tree.examples)
+    tree.generate(tree.examples)
     with open(argv[3], "w") as f:
         f.write(str(tree.tree))
     f.close()
-    tree.print_tree()
+    tree.print()
 
 
 def handle_predict(argv):
