@@ -134,7 +134,7 @@ class DecisionTree:
         self.p, self.n = DecisionTree.pos_neg(self.examples, self.classifier)
 
 
-    def generate_tree(self, examples, depth=-1):
+    def generate(self, examples, depth=-1, avoid=[]):
         def domain(idx):
             return self._attr_values[self.attrs[idx]]
 
@@ -175,10 +175,11 @@ class DecisionTree:
                         children.append(_generate(depth-1, exs, examples, used))
                 branch = tuple([A] + children)
                 return branch
-        self.tree = _generate(depth, examples, examples, [])
+        self.tree = _generate(depth, examples, examples, avoid)
+        return self.tree
 
 
-    def classify(self, examples):
+    def classify(self, examples, hypothesis=None):
         def traversify(node):
             attr = self.attrs[node[0]]
             n = {"attr": attr}
@@ -205,12 +206,21 @@ class DecisionTree:
                         subtree[vk],
                         example)
 
-        classifier = traversify(self.tree)
-        return [use_classifier(classifier, example)
-                for example in examples]
+        # allow use of other hypothesis other than the instance
+        classifier = None
+        if hypothesis == None:
+            classifier = traversify(self.tree)
+        else:
+            classifier = traversify(hypothesis)
+        # allow one example to be classified or many in bulk
+        if isinstance(examples, list):
+            return [use_classifier(classifier, example)
+                    for example in examples]
+        else:
+            return use_classifier(classifier, examples)
 
 
-    def print_tree(self):
+    def print(self):
         def traverse(node, lvl=0):
             print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(self.attrs[node[0]]))
             for child in node[1:]:
@@ -222,7 +232,8 @@ class DecisionTree:
             traverse(self.tree)
         else:
             print(self.tree)
-            
+
+
 
 if __name__ == '__main__':
     import sys
@@ -244,5 +255,5 @@ if __name__ == '__main__':
             ('attr7', 'True', 'False'),
             ('attr8', 'True', 'False')])
     Tree.load_examples(training_set)
-    Tree.generate_tree(Tree.examples)
+    Tree.generate(Tree.examples)
     Tree.print_tree()
