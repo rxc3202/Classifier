@@ -44,6 +44,7 @@ def handle_train(argv):
     tree.load_examples(examples)
     tree.generate(tree.examples)
     with open(argv[3], "w") as f:
+        f.write(argv[4] + "\n")
         f.write(str(tree.tree))
     f.close()
     tree.print()
@@ -51,18 +52,24 @@ def handle_train(argv):
 
 def handle_predict(argv):
     hypothesis = None
+    model = None
     with open(argv[2], "r") as f:
         # DONT DO THIS ITS INSECURE. IM INSANE
+        model = f.readline().strip('\n')
         hypothesis = f.readline()
     f.close()
     hypothesis = literal_eval(hypothesis)
-    tree = DecisionTree(hypothesis)
+    tree = None
+    if model == "dt":
+        tree = DecisionTree()
+    else:
+        tree = Adaboost()
     tree.define_positive_class(lambda x: x.classification == 'en')
     tree.define_classes(processing.classes)
     tree.define_attributes(processing.attr_definitions)
     examples = process_file(argv[3], training=False)
     examples = tree.create_examples(examples)
-    for classification in tree.classify(examples):
+    for classification in tree.classify(examples, hypothesis):
         print(classification)
 
 def main():
