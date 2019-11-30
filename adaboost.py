@@ -67,6 +67,6 @@ class Adaboost(DecisionTree):
         
     def print(self):
         for tree in self.tree:
-            print(f"attr={self.attrs[tree[1][0]]}:({tree[0]})")
+            print(f"{self.attrs[tree[1][0]]}:(~{tree[0]:.2f})")
             for child in tree[1][1:]:
                 print(f"    |---{child}")
