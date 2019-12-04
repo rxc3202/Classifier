@@ -21,7 +21,7 @@ Methodology
 Examples were gathered by hand using the linkes provided in the writeup. 50 lines of text were gathered from both the English and Dutch wikis creating a total training sample set of 100. The samples can include and the processing algorithm (shown below) will remove all uncessary punctuation so that only the raw words are left. This can be accessed at `etc/training.txt`. 
 
 ### Hypothesis Generation
-The hypothesis in the form of an ensemble or a decision tree is output to the file named after the argument provided via the command line. The format of the file is two lines dilineated by the "`\n`" character. The first line contians the abbreviation `dt` or `ada` to specify that the next line is an encoding of a decision tree or an adaboosted forest.
+The hypothesis in the form of an ensemble or a decision tree is output to the file named after the argument provided via the command line. The format of the file is two lines dilineated by the "`\n`" character. The first line contians the abbreviation `dt` or `ada` to specify that the next line is an encoding of a decision tree or an adaboosted forest. There is no new line at the end of the tree structure. Just the  `EOF`.
 
 ```
 dt
@@ -53,19 +53,13 @@ The tree it generates is as follows. Each branch is listed in the order of the t
      |---en_ending
          |---de
              |---nl
-             |---aa
+             |---ee
                  |---nl
-                 |---oo
+                 |---aa
                      |---nl
-                     |---jn
+                     |---van
                          |---nl
-                         |---van
-                             |---nl
-                             |---uu
-                                 |---en
-                                 |---of
-                                     |---en
-                                     |---en
+                         |---en
          |---de
              |---nl
              |---aa
@@ -73,7 +67,7 @@ The tree it generates is as follows. Each branch is listed in the order of the t
                  |---en
 ```
 #### Expirimentation
-The following data was taken using the full set of features on a test set (found at `etc/testing.txt`) which is a set of 20 samples. 10 are English samples and 10 are Dutch samples. 
+The following data was taken using the full set of features on a test set (found at `etc/testing.txt`) which is a set of 50 samples. 25 are English samples and 25 are Dutch samples. 
 The first approach to the features used in the decision tree was to analyze the unique combinations of letters in the words. At first, these were the only types of features I included in the feature set and it comprised of features such as ("aa", "oo", "ee", "uu", "jn", ends in "en")
 
 | Depth | English Error | Dutch Error |
@@ -88,13 +82,33 @@ The first approach to the features used in the decision tree was to analyze the 
 This only allowed the decision tree to to reach a very poor classification rate. After trying to come up with more features, this eventually led nowhere as well and the error rate never each an acceptable level.
 
 As you can see, after deciding to look at letter combination frequency (i.e "oo", "aa", "uu") as well as word frequency (i.e "the" "a", "of", etc), the error rate drops off much faster. The following error table resulted in from taking some attributes out (see Removed Attributes Section) and adding the frequent word features.
+
 | Depth | English Error | Dutch Error |
 |:-----:|:-------------:|:-----------:|
 | 1     |       0%      |     100%    |
 | 2     |      20%      |     0%      |
-| 3     |      20%      |     0%      |
+| 3     |      4%       |     0%      |
+| 4     |      4%       |     0%      |
+| 5     |      0%       |     8%      |
+| 5     |      0%       |     0%      |
 | ...   |      ...      |     ...     |
 | inf   |      0%       |     0%      |
+
+With the best set of features in place, I turned to sample size testing to see at what point my tree could reach near perfect classification. The following tests were run by taking chunks of the `etc/training.txt` file that increase by 10. So the first test would only have 10 examples, then 20, etc until the full sample set of 100 was used. **_The tree depth algorithm ran to completion, creating different depth trees since more examples mean more entropy to account for._**
+
+| Sample Size| English Error | Dutch Error |
+|:-----:|:-------------:|:-----------:|
+| 10     |      0%      |     24%     |
+| 20     |      0%      |     8%      |
+| 30     |      0%      |     8%      |
+| 40     |      0%      |     8%      |
+| 50     |      0%      |     8%      |
+| 60     |      0%      |     0%      |
+| 70     |      0%      |     0%      |
+| 80     |      0%      |     .04%    |
+| 90     |      0%      |     0%      |
+| 100    |      0%      |     0%      |
+
 
 ### Adaboost Analysis
 My adaboost ensemble was create from the same attributes listed above, therefore the ensemble consisted of 10 stumps. When training the adaboost forest, I used the same 100 sample training set found at `etc/training.txt` and used the same test set at `etc/testing.txt`. However, when classifying the testing set, the classification was incredibly poor for dutch samples and incredibly good for english ones. I belive this imbalance was caused by misweighting of the stumps in the adaboost algorithm or the features themselves.
@@ -146,7 +160,6 @@ of:(~0.09)
 
 #### Expirimentation
 
-
 #### Files and Descriptions
 
 | Filename | Function |
@@ -188,10 +201,10 @@ Feature selection for this project used only binary attributes, even though the 
 |`van`|`True`/`False`| `True` if the text contains the word `van` | `van` is a very common Dutch word meaning "of" or "from" which is a frequently used word|
 |`a`|`True`/`False`| `True` if the text contains the word `a` | Dutch does not have the word `a`|
 |`en_ending`|`True`/`False`| `True` if the text has a word ending in `en`| A common conjucation of verbs in Dutch make words have the ending `-en`|
+|`ee`|`True`/`False`| `True` if the text contains at least 1 word with the subtring `ee`|The english language doesn't have native words with `ee`|
 
 #### Removed Features
 | Feature | Values | Description | Justification |
 |---------|-----------|-------------|---------------------|
-|`oo`| `True`/`False` | `True` if the text contains at least 1 word the subtring `"oo"`| The english language doesn't have native words with `oo`|
-|`ee`|`True`/`False`| `True` if the text contains at least 1 word with the subtring `ee`|The english language doesn't have native words with `ee`|
-|`gt1z`|`True`/`False`| `True` if the text contains at least 3 word with the subtring `gt1z`|The english language doesn't have native words with `gt1z`|
+|`oo`| `True`/`False` | `True` if the text contains at least 1 word the subtring `"oo"`| There are a lot of dutch words with `oo`|
+|`gt1z`|`True`/`False`| `True` if the text contains at least 3 word with the subtring `gt1z`|The english language doesn't have a lot native words with the letter `z` so the more z's the better the chance it is dutch|
