@@ -90,6 +90,20 @@ def has_of(text):
             return True
     return False
 
+def has_ee(text):
+    text = text.split(' ')
+    for word in text:
+        if "ee" in word:
+            return True
+    return False
+
+def has_oo(text):
+    text = text.split(' ')
+    for word in text:
+        if "oo" in word:
+            return True
+    return False
+
 #icht ending
 
 processing_funcs = [
@@ -102,11 +116,12 @@ processing_funcs = [
     has_a,
     ends_en,
     has_oo,
-    has_of
+    has_of,
+    has_ee,
+
 ]
 
 classes = ['en', 'nl']
-attr_names = ["aa", "uu", "the", "jn", "de", "van", "a", "en_ending", "oo", "of"]
 attr_definitions = [
         ("aa", True, False),
         ("uu", True, False),
@@ -117,5 +132,7 @@ attr_definitions = [
         ("a", True, False),
         ("en_ending", True, False),
         ("oo", True, False),
-        ("of", True, False)
+        ("of", True, False),
+        ("ee", True, False)
 ]
+attr_names = [x[0] for x in attr_definitions]
