@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 """
-Filename: processing.py
+Filename: test_processing.py
 """
 
 
@@ -110,12 +110,12 @@ processing_funcs = [
     has_aa,
     has_uu,
     has_the,
-    has_jn,
-    has_de,
-    has_van,
+    #has_jn,
+    #has_de,
+    #has_van,
     has_a,
     ends_en,
-    has_oo,
+    #has_oo,
     has_of,
     has_ee,
 
@@ -126,13 +126,13 @@ attr_definitions = [
         ("aa", True, False),
         ("uu", True, False),
         ("the", True, False),
-        ("jn", True, False),
-        ("de", True, False),
-        ("van", True, False),
+        #("jn", True, False),
+        #("de", True, False),
+        #("van", True, False),
         ("a", True, False),
         ("en_ending", True, False),
-        ("oo", True, False),
+        #("oo", True, False),
         ("of", True, False),
-        ("ee", True, False)
+        ("ee", True, False),
 ]
 attr_names = [x[0] for x in attr_definitions]

@@ -1,0 +1,396 @@
+ee:(~1.00)
+    |---nl
+    |---en
+aa:(~1.17)
+    |---nl
+    |---en
+uu:(~0.66)
+    |---nl
+    |---en
+the:(~0.61)
+    |---en
+    |---nl
+jn:(~1.71)
+    |---nl
+    |---en
+de:(~3.02)
+    |---nl
+    |---en
+van:(~3.41)
+    |---nl
+    |---en
+a:(~-0.57)
+    |---en
+    |---nl
+en_ending:(~0.72)
+    |---nl
+    |---en
+oo:(~2.18)
+    |---nl
+    |---en
+of:(~0.10)
+    |---en
+    |---nl
+['en', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'en', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %52.0
+English Error: %0.0
+of:(~0.51)
+    |---en
+    |---nl
+ee:(~0.82)
+    |---nl
+    |---en
+aa:(~0.83)
+    |---nl
+    |---en
+uu:(~0.13)
+    |---nl
+    |---en
+the:(~1.29)
+    |---en
+    |---nl
+jn:(~1.30)
+    |---nl
+    |---en
+de:(~2.79)
+    |---nl
+    |---en
+van:(~3.00)
+    |---nl
+    |---en
+a:(~-0.56)
+    |---en
+    |---nl
+en_ending:(~0.92)
+    |---nl
+    |---en
+oo:(~2.05)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'en', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %36.0
+English Error: %0.0
+oo:(~0.72)
+    |---nl
+    |---en
+of:(~0.30)
+    |---en
+    |---nl
+ee:(~0.90)
+    |---nl
+    |---en
+aa:(~1.31)
+    |---nl
+    |---en
+uu:(~0.37)
+    |---nl
+    |---en
+the:(~1.24)
+    |---en
+    |---nl
+jn:(~1.38)
+    |---nl
+    |---en
+de:(~3.12)
+    |---nl
+    |---en
+van:(~3.14)
+    |---nl
+    |---en
+a:(~-0.64)
+    |---en
+    |---nl
+en_ending:(~1.48)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'en', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %40.0
+English Error: %0.0
+en_ending:(~1.25)
+    |---nl
+    |---en
+oo:(~0.68)
+    |---nl
+    |---en
+of:(~0.35)
+    |---en
+    |---nl
+ee:(~0.86)
+    |---nl
+    |---en
+aa:(~1.35)
+    |---nl
+    |---en
+uu:(~0.40)
+    |---nl
+    |---en
+the:(~1.22)
+    |---en
+    |---nl
+jn:(~1.36)
+    |---nl
+    |---en
+de:(~3.03)
+    |---nl
+    |---en
+van:(~3.04)
+    |---nl
+    |---en
+a:(~-0.59)
+    |---en
+    |---nl
+['en', 'nl', 'nl', 'nl', 'nl', 'en', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %40.0
+English Error: %0.0
+a:(~0.65)
+    |---en
+    |---nl
+en_ending:(~1.23)
+    |---nl
+    |---en
+oo:(~0.41)
+    |---nl
+    |---en
+of:(~0.65)
+    |---en
+    |---nl
+ee:(~0.59)
+    |---nl
+    |---en
+aa:(~1.05)
+    |---nl
+    |---en
+uu:(~-0.15)
+    |---nl
+    |---en
+the:(~0.99)
+    |---en
+    |---nl
+jn:(~0.70)
+    |---nl
+    |---en
+de:(~2.38)
+    |---nl
+    |---en
+van:(~2.38)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %24.0
+English Error: %0.0
+van:(~0.79)
+    |---nl
+    |---en
+a:(~0.38)
+    |---en
+    |---nl
+en_ending:(~1.00)
+    |---nl
+    |---en
+oo:(~0.62)
+    |---nl
+    |---en
+of:(~0.40)
+    |---en
+    |---nl
+ee:(~0.58)
+    |---nl
+    |---en
+aa:(~1.73)
+    |---nl
+    |---en
+uu:(~0.27)
+    |---nl
+    |---en
+the:(~0.91)
+    |---en
+    |---nl
+jn:(~0.95)
+    |---nl
+    |---en
+de:(~2.68)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %24.0
+English Error: %0.0
+de:(~1.20)
+    |---nl
+    |---en
+van:(~1.05)
+    |---nl
+    |---en
+a:(~0.28)
+    |---en
+    |---nl
+en_ending:(~0.89)
+    |---nl
+    |---en
+oo:(~0.75)
+    |---nl
+    |---en
+of:(~0.27)
+    |---en
+    |---nl
+ee:(~0.73)
+    |---nl
+    |---en
+aa:(~2.01)
+    |---nl
+    |---en
+uu:(~0.44)
+    |---nl
+    |---en
+the:(~0.89)
+    |---en
+    |---nl
+jn:(~0.97)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %20.0
+English Error: %0.0
+jn:(~0.38)
+    |---nl
+    |---en
+de:(~1.52)
+    |---nl
+    |---en
+van:(~1.48)
+    |---nl
+    |---en
+a:(~-0.06)
+    |---en
+    |---nl
+en_ending:(~0.75)
+    |---nl
+    |---en
+oo:(~1.24)
+    |---nl
+    |---en
+of:(~-0.22)
+    |---en
+    |---nl
+ee:(~1.65)
+    |---nl
+    |---en
+aa:(~2.31)
+    |---nl
+    |---en
+uu:(~1.46)
+    |---nl
+    |---en
+the:(~0.74)
+    |---en
+    |---nl
+['en', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %32.0
+English Error: %0.0
+the:(~1.20)
+    |---en
+    |---nl
+jn:(~0.21)
+    |---nl
+    |---en
+de:(~1.34)
+    |---nl
+    |---en
+van:(~1.27)
+    |---nl
+    |---en
+a:(~-0.27)
+    |---en
+    |---nl
+en_ending:(~0.62)
+    |---nl
+    |---en
+oo:(~1.12)
+    |---nl
+    |---en
+of:(~0.30)
+    |---en
+    |---nl
+ee:(~1.49)
+    |---nl
+    |---en
+aa:(~2.15)
+    |---nl
+    |---en
+uu:(~1.27)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'nl', 'en', 'en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %24.0
+English Error: %0.0
+uu:(~0.12)
+    |---nl
+    |---en
+the:(~0.73)
+    |---en
+    |---nl
+jn:(~1.18)
+    |---nl
+    |---en
+de:(~2.09)
+    |---nl
+    |---en
+van:(~2.62)
+    |---nl
+    |---en
+a:(~-0.49)
+    |---en
+    |---nl
+en_ending:(~0.58)
+    |---nl
+    |---en
+oo:(~1.94)
+    |---nl
+    |---en
+of:(~0.10)
+    |---en
+    |---nl
+ee:(~2.72)
+    |---nl
+    |---en
+aa:(~3.44)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %28.000000000000004
+English Error: %0.0
+aa:(~1.09)
+    |---nl
+    |---en
+uu:(~0.35)
+    |---nl
+    |---en
+the:(~0.67)
+    |---en
+    |---nl
+jn:(~1.53)
+    |---nl
+    |---en
+de:(~2.28)
+    |---nl
+    |---en
+van:(~2.93)
+    |---nl
+    |---en
+a:(~-0.51)
+    |---en
+    |---nl
+en_ending:(~0.59)
+    |---nl
+    |---en
+oo:(~2.00)
+    |---nl
+    |---en
+of:(~0.09)
+    |---en
+    |---nl
+ee:(~2.92)
+    |---nl
+    |---en
+['en', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'nl', 'nl', 'en', 'en', 'en', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'nl', 'en', 'nl', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en', 'en']
+Dutch Error: %36.0
+English Error: %0.0
