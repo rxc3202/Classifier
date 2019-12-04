@@ -176,11 +176,19 @@ class DecisionTree:
                 branch = tuple([A] + children)
                 return branch
         self.tree = _generate(depth, examples, examples, avoid)
+        # if it is a fully classified tree off the start, add a special marker
+        # that will tell the program to always output that 
+        if not isinstance(self.tree, tuple):
+            self.tree = (None, self.tree)
         return self.tree
 
 
     def classify(self, examples, hypothesis=None):
         def traversify(node):
+            # if the thing is fully classified, just return the classification
+            if node[0] == None:
+                return {None:node[1]}
+
             attr = self.attrs[node[0]]
             n = {"attr": attr}
             # for each vk where vk in A
@@ -195,6 +203,12 @@ class DecisionTree:
             return n
         
         def use_classifier(subtree, example):
+            # the we have received a fully classified tree with
+            # just a default classification that has form {None:<class>}
+            # just always return <class>
+            if None in subtree:
+                return subtree[None] 
+
             feature = subtree["attr"]
             vk = getattr(example, feature)
             # if it is classification return it
@@ -206,12 +220,15 @@ class DecisionTree:
                         subtree[vk],
                         example)
 
+
         # allow use of other hypothesis other than the instance
+        # because implementation is dumb, TODO make everything class stuff
         classifier = None
         if hypothesis == None:
             classifier = traversify(self.tree)
         else:
             classifier = traversify(hypothesis)
+
         # allow one example to be classified or many in bulk
         if isinstance(examples, list):
             return [use_classifier(classifier, example)
@@ -222,6 +239,8 @@ class DecisionTree:
 
     def print(self):
         def traverse(node, lvl=0):
+            if node[0] == None:
+                return print(node[1])
             print('    ' * (lvl - 1), "|---" * (lvl > 0) + str(self.attrs[node[0]]))
             for child in node[1:]:
                 if child in self.classes:

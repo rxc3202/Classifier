@@ -54,7 +54,6 @@ def handle_predict(argv):
     hypothesis = None
     model = None
     with open(argv[2], "r") as f:
-        # DONT DO THIS ITS INSECURE. IM INSANE
         model = f.readline().strip('\n')
         hypothesis = f.readline()
     f.close()
@@ -73,6 +72,9 @@ def handle_predict(argv):
         print(classification)
 
 def main():
+    if len(sys.argv) < 3:
+        usage()
+        sys.exit(1)
     if sys.argv[1] == "train":
         if len(sys.argv) != 5:
             usage()
