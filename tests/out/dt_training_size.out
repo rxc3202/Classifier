@@ -1,0 +1,126 @@
+===================== Sample Size: 10 =====================
+ aa
+ |---nl
+ |---en
+Dutch Error: %24.0
+English Error: %0.0
+===================== Sample Size: 20 =====================
+ aa
+ |---nl
+ |---de
+     |---nl
+     |---en
+Dutch Error: %8.0
+English Error: %0.0
+===================== Sample Size: 30 =====================
+ aa
+ |---nl
+ |---de
+     |---nl
+     |---en
+Dutch Error: %8.0
+English Error: %0.0
+===================== Sample Size: 40 =====================
+ aa
+ |---nl
+ |---de
+     |---nl
+     |---en
+Dutch Error: %8.0
+English Error: %0.0
+===================== Sample Size: 50 =====================
+ the
+ |---en
+ |---en_ending
+     |---nl
+     |---de
+         |---nl
+         |---en
+Dutch Error: %8.0
+English Error: %0.0
+===================== Sample Size: 60 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---nl
+         |---oo
+             |---nl
+             |---en
+Dutch Error: %0.0
+English Error: %0.0
+===================== Sample Size: 70 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---aa
+         |---nl
+         |---ee
+             |---nl
+             |---de
+                 |---nl
+                 |---en
+Dutch Error: %4.0
+English Error: %0.0
+===================== Sample Size: 80 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---aa
+         |---nl
+         |---ee
+             |---nl
+             |---de
+                 |---nl
+                 |---van
+                     |---nl
+                     |---en
+Dutch Error: %0.0
+English Error: %0.0
+===================== Sample Size: 90 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---aa
+             |---nl
+             |---ee
+                 |---nl
+                 |---de
+                     |---nl
+                     |---van
+                         |---nl
+                         |---en
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %0.0
+English Error: %0.0
+===================== Sample Size: 100 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---aa
+                     |---nl
+                     |---van
+                         |---nl
+                         |---en
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %0.0
+English Error: %0.0

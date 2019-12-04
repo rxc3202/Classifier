@@ -1,0 +1,164 @@
+===================== Depth: 1 =====================
+ the
+ |---en
+ |---en
+Dutch Error: %100.0
+English Error: %0.0
+===================== Depth: 2 =====================
+ the
+ |---en
+ |---a
+     |---nl
+     |---nl
+Dutch Error: %0.0
+English Error: %20.0
+===================== Depth: 3 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---nl
+         |---nl
+Dutch Error: %0.0
+English Error: %4.0
+===================== Depth: 4 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---nl
+         |---de
+             |---nl
+             |---nl
+Dutch Error: %0.0
+English Error: %4.0
+===================== Depth: 5 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---nl
+         |---de
+             |---nl
+             |---aa
+                 |---en
+                 |---en
+Dutch Error: %8.0
+English Error: %0.0
+===================== Depth: 6 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---aa
+                     |---nl
+                     |---nl
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %0.0
+English Error: %0.0
+===================== Depth: 7 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---aa
+                     |---nl
+                     |---van
+                         |---en
+                         |---en
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %4.0
+English Error: %0.0
+===================== Depth: 8 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---aa
+                     |---nl
+                     |---van
+                         |---nl
+                         |---en
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %0.0
+English Error: %0.0
+===================== Depth: 9 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---aa
+                     |---nl
+                     |---van
+                         |---nl
+                         |---en
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %0.0
+English Error: %0.0
+===================== Depth: 10 =====================
+ the
+ |---en
+ |---a
+     |---en
+     |---en_ending
+         |---de
+             |---nl
+             |---ee
+                 |---nl
+                 |---aa
+                     |---nl
+                     |---van
+                         |---nl
+                         |---en
+         |---de
+             |---nl
+             |---aa
+                 |---nl
+                 |---en
+Dutch Error: %0.0
+English Error: %0.0
