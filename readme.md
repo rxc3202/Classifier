@@ -50,6 +50,14 @@ dt
 ```
 > This is the encoding of the of best decision tree my features have produced
 
+```
+ada
+[(1.093829335871861, (0, 'nl', 'en')), (0.3502912018167554, (1, 'nl', 'en')), (0.6721546886185346, (2, 'en', 'nl')), (-0.22298423161917275, (3, 'en', 'nl')), (0.8335111406166806, (4, 'nl', 'en')), (0.39645081231644874, (5, 'en', 'nl')), (1.1909294610461232, (6, 'nl', 'en'))]
+```
+> This is an encoding an adaboosted forest
+
+
+
 ### Decision Tree Analysis
 The decision tree created using the features I chose does classification at nearly 100% correct with a training set of 100 samples (described above) and then tested using a set of 20 examples for testing. The training set and the testing set (found at `etc/training.txt` and `etc/testing.txt`) have no overlapping samples.
 
