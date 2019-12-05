@@ -7,6 +7,11 @@ class Adaboost(DecisionTree):
         super().__init__(tree)
 
     def generate(self, examples):
+        """
+        Generate a forest with weights given a list of processed
+        examples. 
+        :param examples: a list of named tuples formatted by DecisionTree.create_examples
+        """
         def normalize(w):
             return [float(i)/sum(w) for i in w]
 
@@ -43,6 +48,14 @@ class Adaboost(DecisionTree):
         return self.tree
 
     def classify(self, examples, hypothesis=None):
+        """
+        Classify a list of examples or a single example using the internal
+        Adaboost model or an external hypothesis which is a list of tuples 
+        where the first attribute is a weight and the second is a decision stump
+
+        :param examples: a list of examples created from DecisionTree.create_examples
+        :param hypothesis: an external hypothesis to test
+        """
         def traverse(example):
             totals = {key:0 for key in self.classes}
             classified = []
@@ -57,6 +70,8 @@ class Adaboost(DecisionTree):
                 totals[c[1]] += hypothesis[c[0]][0]
             return max(self.classes, key=lambda x: totals[x])
 
+        # choose which hypothese to use, if one was passed in
+        # prioritize that one over the one stored in self.tree
         if not hypothesis:
             hypothesis = self.tree
 

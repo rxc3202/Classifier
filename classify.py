@@ -17,6 +17,10 @@ def usage():
     print("classify.py <predict> <hypothesis> <file>")
 
 def process_file(filename, training=True):
+    """
+    Processes a file that is in the form "<class>|<text>" or just a file of text.
+    Given It will run every function specified in the processing.py file
+    """
     raw_text = []
     with open(filename, 'r') as f:
         raw_text = [re.sub("[^(a-zA-Z\d\-\s\|)]",'', line).strip("\n ").lower() for line in f]
@@ -37,7 +41,6 @@ def handle_train(argv):
         tree = DecisionTree()
     else:
         tree = Adaboost()
-    
     tree.define_positive_class(lambda x: x.classification == 'en')
     tree.define_classes(processing.classes)
     tree.define_attributes(processing.attr_definitions)
