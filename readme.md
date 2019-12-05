@@ -1,17 +1,76 @@
-# Project 2 : Langauge Classifier
+# Project 2 : Language Classifier
 
 How To Run
 ==========
-#### Grading
+The main file for this project is classifier.py. When running the program you can either train or predict as specified by the lab2 documentation
+#### Grading using my hypothesis file
 ```bash
-$ python3 classifier.py train etc/training.txt hypothesis.txt dt
-$ python3 classifier.py predict <file> hypothesis.txt
+$ python3 classify.py predict hypotheses/dt-hypo.out <file>
 ```
 
 #### Testing using my examples
 ```bash
-$ python3 classifier.py train etc/training.txt hypothesis.txt dt
-$ python3 classifier.py predict etc/testing.txt hypothesis.txt
+$ python3 classify.py train etc/training.txt hypothesis.txt dt
+$ python3 classify.py predict hypothesis.txt etc/testing.txt
+
+$ python3 classify.py train etc/training.txt hypothesis.txt ada
+$ python3 classify.py predict hypothesis.txt etc/testing.txt
+```
+
+
+#### Viewing my testing
+###### Decision Tree
+```bash
+test_dt.py <ssize|depth> <training-set> <hypothesisOut> <testing-set>
+# This will test building the tree at multiple depths
+$ cd tests
+$ python3 test_dt.py depth ../etc/training.txt testHypo.out ../etc/testing.txt
+# This will test the full tree using multiple sample sizes
+$ python3 test_dt.py ssize ../etc/training.txt testHypo.out ../etc/testing.txt
+```
+###### Adaboosted Forest 
+```bash
+test_ada.py <rotate|normal> <training-set> <hypothesisOut> <testing-set>
+$ cd tests
+# This will test building the forest by changing the order of the attributes that are used first
+# Explaination below in the Adaboost Experimentaiton section
+$ python3 test_ada.py rotate ../etc/training.txt testHypo.out ../etc/testing.txt
+# This will test the weighted forest normally and present error rates
+$ python3 test_ada.py normal ../etc/training.txt testHypo.out ../etc/testing.txt
+```
+
+#### Usage
+An example usage of how to interact with my DecisionTree class for reference
+```python
+# Create a decision tree instance
+Tree = DecisionTree()
+# In order to decide what class is the "positive case" you must specify
+# a function that can sort each example. This this case, the positive class
+# is any example classified as an "A"
+Tree.define_positive_class(lambda dp: dp.classification in ('A'))
+# Tell the tree what classifications are available
+Tree.define_classes(['B', 'A'])
+# Define what features' name is and the possible values it holds
+# in a list of tuples [(name, val1, val2, ...), ...]
+Tree.define_attributes(
+        [('attr1', 'True', 'False'),
+        ('attr2', 'True', 'False'),
+        ('attr3', 'True', 'False'),
+        ('attr4', 'True', 'False'),
+        ('attr5', 'True', 'False'),
+        ('attr6', 'True', 'False'),
+        ('attr7', 'True', 'False'),
+        ('attr8', 'True', 'False')])
+# take a list of tuples and label the attributes accordingly
+# each tuple should have each attribute in the same order specified
+# by define_attributes()
+Tree.create_examples(training_set)
+# Generate a decision tree using the loaded examples
+Tree.generate(Tree.examples)
+# Pass in a set tuples representing an example that has attributes
+# in the same order as define_attributes()
+# i.e (True, False, True, True ...) would correspond to (attr1, attr2, etc)
+Tree.classify(testing_set)
 ```
 
 
