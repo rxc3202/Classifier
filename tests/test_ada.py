@@ -72,7 +72,8 @@ def main():
     b = deque(processing.attr_names)
     c = deque(processing.processing_funcs)
     if sys.argv[1] == "rotate":
-        for _ in range(11):
+        for i in range(11):
+            print(f"=========== Rotation {i} ===========")
             a.rotate()
             b.rotate()
             c.rotate()
@@ -80,7 +81,6 @@ def main():
             processing.attr_definitions = list(a)
             processing.attr_names = list(b)
             processing.processing_funcs = list(c)
-            print(b)
 
             handle_train(sys.argv)
             results = handle_predict(sys.argv)
